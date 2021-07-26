@@ -32,12 +32,12 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth', # django's installed 'User' object
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'classApp',
+    'classApp', # ALL new apps are to be added to 'INSTALLED_APPS'
 ]
 
 MIDDLEWARE = [
