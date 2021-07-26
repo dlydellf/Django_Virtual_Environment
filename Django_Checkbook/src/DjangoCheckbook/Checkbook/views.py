@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import AccountForm, TransactionForm
 
 
 # Create your views here.
@@ -7,7 +8,13 @@ def home(request):
 
 
 def create_account(request):
-    return render(request, 'checkbook/CreateNewAccount.html')
+    form = AccountForm(data=request.POST or None) # backfills the form with data from the request.POST
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save() # if the method was POST & all fields are valid, save the form
+            return redirect('index') # return User to starting page
+    content = {'form': form}
+    return render(request, 'checkbook/CreateNewAccount.html', content) # return the form's data within the 'CreateNewAccount' page
 
 
 def balance(request):
@@ -15,4 +22,10 @@ def balance(request):
 
 
 def transaction(request):
-    return render(request, 'checkbook/AddTransaction.html')
+    form = TransactionForm(data=request.POST or None) # backfills the form with data from the request.POST
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save() # if the method was POST & all fields are valid, save the form
+            return redirect('index') # return User to starting page
+    content = {'form': form}
+    return render(request, 'checkbook/AddTransaction.html', content) # return the form's data within the 'CreateNewAccount' page
