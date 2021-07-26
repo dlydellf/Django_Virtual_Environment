@@ -11,7 +11,7 @@ def create_account(request):
 
 
 def balance(request):
-    return render(request, 'checkbook/BalanceSheet/html')
+    return render(request, 'checkbook/BalanceSheet.html')
 
 
 def transaction(request):
