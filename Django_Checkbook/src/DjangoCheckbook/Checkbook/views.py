@@ -1,10 +1,16 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Account, Transaction
 from .forms import AccountForm, TransactionForm
 
 
 # Create your views here.
 def home(request):
-    return render(request, 'checkbook/index.html')
+    form = TransactionForm(data=request.POST or None)
+    if request.method == 'POST':
+        pk = request.POST['account']
+        return balance(request, pk)
+    content = {'form': form}
+    return render(request, 'checkbook/index.html', content)
 
 
 def create_account(request):
@@ -17,8 +23,20 @@ def create_account(request):
     return render(request, 'checkbook/CreateNewAccount.html', content) # return the form's data within the 'CreateNewAccount' page
 
 
-def balance(request):
-    return render(request, 'checkbook/BalanceSheet.html')
+def balance(request, pk):
+    account = get_object_or_404(Account, pk = pk) # if account exists, get it (according to the pk)
+    transactions = Transaction.Transactions.filter(account = pk) # filter ALL transactions according to the pk
+    current_total = account.initial_deposit # before calculating deposits/withdrawals, assign account's current_balance to its initial deposit
+    table_contents = {}
+    for t in transactions: # begin updating current_total by transaction types:
+        if t.type == 'Deposit':
+            current_total += t.amount # ADD deposits to the current_total
+            table_contents.update({t: current_total})
+        else:
+            current_total -= t.amount # SUBTRACT withdrawals from the current_total
+            table_contents.update({t: current_total})
+    content = {'account': account, 'table_contents': table_contents, 'balance' : current_total}
+    return render(request, 'checkbook/BalanceSheet.html', content)
 
 
 def transaction(request):
