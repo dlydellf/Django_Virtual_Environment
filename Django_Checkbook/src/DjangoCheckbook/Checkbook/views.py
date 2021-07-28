@@ -44,6 +44,8 @@ def transaction(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save() # if the method was POST & all fields are valid, save the form
-            return redirect('index') # return User to starting page
+            pk = request.POST['account'] # pk == whichever account User sends via POST:
+            form.save() # form is saved
+            return balance(request, pk) # redirects User back to balance(), and eventually balanceSheet.html
     content = {'form': form}
     return render(request, 'checkbook/AddTransaction.html', content) # return the form's data within the 'CreateNewAccount' page
