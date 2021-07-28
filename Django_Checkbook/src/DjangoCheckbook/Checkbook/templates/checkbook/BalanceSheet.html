@@ -25,7 +25,7 @@
 					<th>Description</th>
 					<th>Amount</th>
 					<th>Balance</th>
-				</tr>a{% for key, total in table_contents.items %} # for each row in table_contents, dynamically update this doc with the key/value pairs:
+				</tr>{% for key, total in table_contents.items %} <!-- for each row in table_contents, dynamically update this doc with the key/value pairs: -->
 				<tr>
 					<td class="center">{{ key.date }}</td>
 					<td class="center">{{ key.type }}</td>
