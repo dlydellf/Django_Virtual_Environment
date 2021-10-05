@@ -10,9 +10,9 @@ class Account(models.Model):
     Accounts = models.Manager
 
     # Allows returning references to a specific account
-    # as the owner's name isn' the primary key
+    # as the owner's name isn't the primary key
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return self.($"{first_name} {self.last_name}")
 
 
 TransactionTypes = [('Deposit', 'Deposit'), ('Withdrawal', 'Withdrawal')]
