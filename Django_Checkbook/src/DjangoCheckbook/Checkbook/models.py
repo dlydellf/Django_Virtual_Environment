@@ -12,7 +12,9 @@ class Account(models.Model):
     # Allows returning references to a specific account
     # as the owner's name isn't the primary key
     def __str__(self):
-        return self.($"{first_name} {self.last_name}")
+        return self.first_name + " " + self.last_name # this is the ORIGINAL version, but...
+        return self.firstName + " " + self.lastName # ...these parameter/argument names might be less verbose, while...
+        return ($"{self.first_Name} {self.last_Name}") # THIS string literal version is ideal :)
 
 
 TransactionTypes = [('Deposit', 'Deposit'), ('Withdrawal', 'Withdrawal')]
